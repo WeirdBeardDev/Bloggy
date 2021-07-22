@@ -10,6 +10,10 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Bloggy.Data;
+using Bloggy.Data.Interfaces;
+using BloggyServerSide.Data;
 
 namespace BloggyServerSide
 {
@@ -29,11 +33,14 @@ namespace BloggyServerSide
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
+            services.AddDbContextFactory<BloggyDBContext>(opt => opt.UseSqlite($"Data Source=../BloggyData.db"));
+            services.AddScoped<IBloggyApi, BloggyApiServerSide>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IDbContextFactory<BloggyDBContext> factory)
         {
+            factory.CreateDbContext().Database.Migrate();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
