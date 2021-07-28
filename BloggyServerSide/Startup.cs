@@ -13,7 +13,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Bloggy.Data;
 using Bloggy.Data.Interfaces;
-using BloggyServerSide.Data;
 
 namespace BloggyServerSide
 {
