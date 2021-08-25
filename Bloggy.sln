@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31424.327
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloggyServerSide", "BloggyServerSide\BloggyServerSide.csproj", "{674C7ED3-3113-47A5-904E-5A041CC0B054}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggyServerSide", "BloggyServerSide\BloggyServerSide.csproj", "{674C7ED3-3113-47A5-904E-5A041CC0B054}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloggyWebAssembly.Server", "BloggyWebAssembly\Server\BloggyWebAssembly.Server.csproj", "{43BA1ED0-EEA4-4D52-9786-595ACC12ECF4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggyWebAssembly.Server", "BloggyWebAssembly\Server\BloggyWebAssembly.Server.csproj", "{43BA1ED0-EEA4-4D52-9786-595ACC12ECF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloggyWebAssembly.Client", "BloggyWebAssembly\Client\BloggyWebAssembly.Client.csproj", "{265B4689-506A-49EB-872A-28A54A0A074C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggyWebAssembly.Client", "BloggyWebAssembly\Client\BloggyWebAssembly.Client.csproj", "{265B4689-506A-49EB-872A-28A54A0A074C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BloggyWebAssembly.Shared", "BloggyWebAssembly\Shared\BloggyWebAssembly.Shared.csproj", "{8F2990AE-620E-4343-8BDC-933BC006E29F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggyWebAssembly.Shared", "BloggyWebAssembly\Shared\BloggyWebAssembly.Shared.csproj", "{8F2990AE-620E-4343-8BDC-933BC006E29F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloggy.Data", "Bloggy.Data\Bloggy.Data.csproj", "{E0CB9ADB-4B8E-46DA-8E89-B23E348BEE98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bloggy.Data", "Bloggy.Data\Bloggy.Data.csproj", "{E0CB9ADB-4B8E-46DA-8E89-B23E348BEE98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
