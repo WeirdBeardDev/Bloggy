@@ -1,0 +1,18 @@
+﻿@page "/testpage"
+@using BloggyServerSide.Components
+
+<!-- Use Alert component example -->
+<Alert Style="Alert.AlertStyle.Danger">This is dangerous.</Alert>
+<Alert Style="Alert.AlertStyle.Success">
+    <ChildContent>Woot! We are successful.</ChildContent>
+</Alert>
+<Alert Style="Alert.AlertStyle.Success"></Alert>
+
+<!-- Set focus example -->
+<input @ref="textInput" />
+<button @onclick="() => textInput.FocusAsync()">Set focus</button>
+
+@code {
+    ElementReference textInput;
+}
+
