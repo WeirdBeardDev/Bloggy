@@ -7,10 +7,9 @@
 <br />
 <br />
 <ul>
-    @foreach (var p in posts)
-    {
-        <li>@p.Title</li>
-    }
+    <Virtualize ItemsProvider="LoadPosts" Context="p">
+        <li><a href="/Post/@p.ID">@p.Title</a></li>
+    </Virtualize>
 </ul>
 
 
@@ -27,12 +26,15 @@
             });
         }
     }
-
-    protected List<BlogPost> posts = new List<BlogPost>();
-
-    protected override async Task OnInitializedAsync()
+    public int TotalBlogPosts { get; set; }
+    private async ValueTask<ItemsProviderResult<BlogPost>> LoadPosts(ItemsProviderRequest request)
     {
-        posts = await api.GetBlogPostsAsync(10, 0);
-        await base.OnInitializedAsync();
+        if (TotalBlogPosts ==0)
+        {
+            TotalBlogPosts = await api.GetBlogPostCountAsync();
+        }
+        var numBlogPosts = Math.Min(request.Count, TotalBlogPosts - request.StartIndex);
+        var employees = await api.GetBlogPostsAsync(numBlogPosts, request.StartIndex);
+        return new ItemsProviderResult<BlogPost>(employees, TotalBlogPosts);
     }
 } 

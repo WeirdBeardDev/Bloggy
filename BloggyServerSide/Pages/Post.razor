@@ -1,0 +1,26 @@
+﻿@page "/post/{BlogPostID:int}"
+@inject IBloggyApi api
+@inject NavigationManager navman
+
+@if(BlogPost != null)
+{
+    <Title Value="@BlogPost.Title"></Title>
+    <Meta property="og:title" content="@BlogPost.Title" />
+    <Meta property="og:description" content="@(new string(BlogPost.Text.Take(100).ToArray()))" />
+    <Meta property="og:image" content="@($"{navman.BaseUri}/pathtoanimage.png")" />
+    <Meta property="og:url" content="@navman.Uri" />
+    <Meta property="twitter:card" content="@(new string(BlogPost.Text.Take(100).ToArray()))" />
+    <h3>@BlogPost.Title</h3>
+    @((MarkupString)BlogPost.Text)
+}
+
+@code {
+    [Parameter]
+    public int BlogPostID { get; set; }
+    public BlogPost BlogPost { get; set; }
+    protected async override Task OnParametersSetAsync()
+    {
+        BlogPost = await api.GetBlogPostAsync(BlogPostID);
+        await base.OnParametersSetAsync();
+    }
+}
