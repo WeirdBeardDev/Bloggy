@@ -12,10 +12,7 @@ namespace Bloggy.Data
     {
         private readonly IDbContextFactory<BloggyDBContext> _factory;
 
-        public BloggyApiServerSide(IDbContextFactory<BloggyDBContext> factory)
-        {
-            _factory = factory;
-        }
+        public BloggyApiServerSide(IDbContextFactory<BloggyDBContext> factory) => _factory = factory;
 
         public async Task<BlogPost> GetBlogPostAsync(int id)
         {
@@ -58,7 +55,6 @@ namespace Bloggy.Data
         public async Task<BlogPost> SaveBlogPostAsync(BlogPost item) => (await SaveItem(item)) as BlogPost;
         public async Task<Category> SaveCategoryAsync(Category item) => (await SaveItem(item)) as Category;
         public async Task<Tag> SaveTagAsync(Tag item) => (await SaveItem(item)) as Tag;
-
 
         private async Task DeleteItem(IBloggyItem item)
         {
