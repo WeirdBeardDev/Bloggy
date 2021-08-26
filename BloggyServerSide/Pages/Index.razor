@@ -29,7 +29,7 @@
     public int TotalBlogPosts { get; set; }
     private async ValueTask<ItemsProviderResult<BlogPost>> LoadPosts(ItemsProviderRequest request)
     {
-        if (TotalBlogPosts ==0)
+        if (TotalBlogPosts == 0)
         {
             TotalBlogPosts = await api.GetBlogPostCountAsync();
         }
@@ -37,4 +37,4 @@
         var employees = await api.GetBlogPostsAsync(numBlogPosts, request.StartIndex);
         return new ItemsProviderResult<BlogPost>(employees, TotalBlogPosts);
     }
-} 
+}
