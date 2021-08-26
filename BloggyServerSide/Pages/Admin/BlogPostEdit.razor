@@ -1,0 +1,91 @@
+﻿@page "/admin/blogposts/new"
+@page "/admin/blogposts/{ID:int}"
+@inject IBloggyApi api
+@inject NavigationManager navman
+@using BloggyServerSide.Components
+@using Markdig
+ 
+<EditForm Model="Post" OnValidSubmit="SavePost">
+    <DataAnnotationsValidator />
+    <CustomCssClassProvider ProviderType="BootstrapFieldCssClassProvider" />
+    Title: <InputText @bind-Value="Post.Title"></InputText>
+    Publish Date: <InputDate @bind-Value="Post.PublishDate"></InputDate>
+    Categories: <InputSelect @bind-Value="selectedCategory">
+        <option value="0" disabled>None selected</option>
+        @foreach (var category in Categories)
+        {
+            <option value="@category.ID">@category.Name</option>
+        }
+    </InputSelect>
+    Tags: 
+    <ul>
+        @foreach (var tag in Tags)
+        {
+            <li>
+            @tag.Name
+            @if (Post.Tags.Any(t => t.ID == tag.ID))
+            {
+                <button type="button" @onclick="@(()=> {Post.Tags.Remove(Post.Tags.Single(t => t.ID == tag.ID));})">Remove</button>
+            }
+            else
+            {
+                <button type="button" @onclick="@(()=> { Post.Tags.Add(tag); })">Add</button>
+            }
+            </li>
+        }
+    </ul>
+    <InputTextAreaOnInput @bind-Value="Post.Text" @onkeyup="UpdateHtml"></InputTextAreaOnInput>
+    <button type="submit" class="btn btn-success">Save</button>
+</EditForm>
+
+@((MarkupString)markDownAsHtml)
+
+@code {
+#nullable enable
+    [Parameter] public int? ID { get; set; }
+    BlogPost Post { get; set; } = new BlogPost();
+    List<Category>? Categories { get; set; }
+    List<Tag>? Tags { get; set; }
+    int selectedCategory = 0;
+    string? markDownAsHtml { get; set; }
+    MarkdownPipeline pipeline;
+
+    protected override Task OnInitializedAsync()
+    {
+        pipeline = new MarkdownPipelineBuilder().UseEmojiAndSmiley().Build();
+        return base.OnInitializedAsync();
+    }
+
+    public async Task SavePost()
+    {
+        if (selectedCategory != 0 && Categories != null)
+        {
+            var category = Categories.FirstOrDefault(c => c.ID == selectedCategory);
+            if (category != null)
+            {
+                Post.Category = category;
+            }
+        }
+        await api.SaveBlogPostAsync(Post);
+        navman.NavigateTo("/admin/blogposts");
+    }
+
+    protected void UpdateHtml() => markDownAsHtml = Markdig.Markdown.ToHtml(Post.Text, pipeline);
+    bool hasTag(Bloggy.Data.Models.Tag tag) => Post.Tags.Contains(tag);
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (ID != null)
+        {
+            Post = await api.GetBlogPostAsync(ID.Value);
+            if (Post.Category != null)
+            {
+                selectedCategory = Post.Category.ID;
+            }
+            UpdateHtml();
+        }
+        Categories = await api.GetCategoriesAsync();
+        Tags = await api.GetTagsAsync();
+        base.OnParametersSet();
+    }
+}
