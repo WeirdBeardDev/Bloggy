@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Bloggy.Data\Bloggy.Data.csproj" />
     <ProjectReference Include="..\Client\BloggyWebAssembly.Client.csproj" />
     <ProjectReference Include="..\Shared\BloggyWebAssembly.Shared.csproj" />
   </ItemGroup>

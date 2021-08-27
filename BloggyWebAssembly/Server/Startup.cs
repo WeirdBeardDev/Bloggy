@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Bloggy.Data;
+using Bloggy.Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BloggyWebAssembly.Server
 {
@@ -19,7 +22,8 @@ namespace BloggyWebAssembly.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddDbContext<BloggyDBContext>(opt => opt.UseSqlite($"Data Source=../../BloggyData.db"));
+            services.AddScoped<IBloggyApi, BloggyApiServerSide>();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
