@@ -1,6 +1,7 @@
 ﻿@page "/admin/tags"
 @using BloggyServerSide.Components
 @inject IBloggyApi api
+@attribute [Authorize]
 
 <h3>Tags</h3>
 <EditForm OnValidSubmit="Save" Model="Item">

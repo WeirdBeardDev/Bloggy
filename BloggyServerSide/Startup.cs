@@ -1,18 +1,19 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using BloggyServerSide.Data;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Bloggy.Data;
 using Bloggy.Data.Interfaces;
+using Bloggy.Data.Models;
+using BloggyServerSide.Authentication;
+using BloggyServerSide.Data;
+using IdentityServer4.EntityFramework.Options;
+using Microsoft.Extensions.Options;
+
 
 namespace BloggyServerSide
 {
@@ -32,8 +33,11 @@ namespace BloggyServerSide
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
-            services.AddDbContextFactory<BloggyDBContext>(opt => opt.UseSqlite($"Data Source=../BloggyData.db"));
+            services.AddDbContextFactory<BloggyDBContext>(opt => opt.UseSqlite(Configuration.GetConnectionString("BloggyDB")));
             services.AddScoped<IBloggyApi, BloggyApiServerSide>();
+            services.AddDbContext<BloggyDBContext>(opt => opt.UseSqlite(Configuration.GetConnectionString("BloggyDB")));
+            services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<BloggyDBContext>();
+            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<AppUser>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +59,8 @@ namespace BloggyServerSide
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

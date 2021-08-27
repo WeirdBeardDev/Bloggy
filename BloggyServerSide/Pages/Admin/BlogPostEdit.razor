@@ -4,7 +4,8 @@
 @inject NavigationManager navman
 @using BloggyServerSide.Components
 @using Markdig
- 
+@attribute [Authorize]
+
 <EditForm Model="Post" OnValidSubmit="SavePost">
     <DataAnnotationsValidator />
     <CustomCssClassProvider ProviderType="BootstrapFieldCssClassProvider" />
@@ -17,20 +18,20 @@
             <option value="@category.ID">@category.Name</option>
         }
     </InputSelect>
-    Tags: 
+    Tags:
     <ul>
         @foreach (var tag in Tags)
         {
             <li>
-            @tag.Name
-            @if (Post.Tags.Any(t => t.ID == tag.ID))
-            {
-                <button type="button" @onclick="@(()=> {Post.Tags.Remove(Post.Tags.Single(t => t.ID == tag.ID));})">Remove</button>
-            }
-            else
-            {
-                <button type="button" @onclick="@(()=> { Post.Tags.Add(tag); })">Add</button>
-            }
+                @tag.Name
+                @if (Post.Tags.Any(t => t.ID == tag.ID))
+                {
+                    <button type="button" @onclick="@(()=> {Post.Tags.Remove(Post.Tags.Single(t => t.ID == tag.ID));})">Remove</button>
+                }
+                else
+                {
+                    <button type="button" @onclick="@(()=> { Post.Tags.Add(tag); })">Add</button>
+                }
             </li>
         }
     </ul>

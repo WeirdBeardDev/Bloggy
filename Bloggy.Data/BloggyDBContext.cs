@@ -6,14 +6,17 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Bloggy.Data.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using IdentityServer4.EntityFramework.Options;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using Microsoft.Extensions.Options;
 
 namespace Bloggy.Data
 {
-    public class BloggyDBContext : DbContext
+    public class BloggyDBContext : ApiAuthorizationDbContext<AppUser>
     {
         #region Ctors
-        public BloggyDBContext(DbContextOptions<BloggyDBContext> context) : base(context)
-        { }
+        public BloggyDBContext(DbContextOptions options) : base(options, new OperationalStoreOptionsMigrations()) { }
         #endregion Ctors
 
         #region Properties
@@ -21,6 +24,10 @@ namespace Bloggy.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<Tag> Tags { get; set; }
         #endregion Properties
+
+        #region Methods
+        protected override void OnModelCreating(ModelBuilder builder) => base.OnModelCreating(builder);
+        #endregion Methods
     }
 
     public class BloggyDBContextFactory : IDesignTimeDbContextFactory<BloggyDBContext>
@@ -28,8 +35,20 @@ namespace Bloggy.Data
         public BloggyDBContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<BloggyDBContext>();
-            optionsBuilder.UseSqlite("Data Source = BloggyData.db");
+            optionsBuilder.UseSqlite("Data Source = ../BloggyData.db");
             return new BloggyDBContext(optionsBuilder.Options);
         }
+    }
+
+    public class OperationalStoreOptionsMigrations : IOptions<OperationalStoreOptions>
+    {
+        public OperationalStoreOptions Value => new OperationalStoreOptions()
+        {
+            DeviceFlowCodes = new TableConfiguration("DeviceCodes"),
+            EnableTokenCleanup = false,
+            PersistedGrants = new TableConfiguration("PersistedGrants"),
+            TokenCleanupBatchSize = 100,
+            TokenCleanupInterval = 3600,
+        };
     }
 }
