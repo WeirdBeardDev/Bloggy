@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Bloggy.Data;
 using Bloggy.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Bloggy.Data.Models;
+using Microsoft.AspNetCore.Authentication;
 
 namespace BloggyWebAssembly.Server
 {
@@ -22,8 +24,14 @@ namespace BloggyWebAssembly.Server
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<BloggyDBContext>(opt => opt.UseSqlite($"Data Source=../../BloggyData.db"));
+            services.AddDbContextFactory<BloggyDBContext>(opt => opt.UseSqlite(Configuration.GetConnectionString("BloggyDB")));
             services.AddScoped<IBloggyApi, BloggyApiServerSide>();
+
+            services.AddDbContext<BloggyDBContext>(opt => opt.UseSqlite(Configuration.GetConnectionString("BloggyData")));
+            services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<BloggyDBContext>();
+            services.AddIdentityServer().AddApiAuthorization<AppUser, BloggyDBContext>();
+            services.AddAuthentication().AddIdentityServerJwt();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
@@ -48,6 +56,10 @@ namespace BloggyWebAssembly.Server
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseIdentityServer();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
