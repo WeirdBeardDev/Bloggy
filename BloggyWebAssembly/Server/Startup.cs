@@ -11,6 +11,8 @@ using Bloggy.Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Bloggy.Data.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace BloggyWebAssembly.Server
 {
@@ -28,8 +30,15 @@ namespace BloggyWebAssembly.Server
             services.AddScoped<IBloggyApi, BloggyApiServerSide>();
 
             services.AddDbContext<BloggyDBContext>(opt => opt.UseSqlite(Configuration.GetConnectionString("BloggyData")));
-            services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = false).AddEntityFrameworkStores<BloggyDBContext>();
-            services.AddIdentityServer().AddApiAuthorization<AppUser, BloggyDBContext>();
+            services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = false).AddRoles<IdentityRole>().AddEntityFrameworkStores<BloggyDBContext>();
+            services.AddIdentityServer().AddApiAuthorization<AppUser, BloggyDBContext>(options =>
+            {
+                options.IdentityResources["openid"].UserClaims.Add("name");
+                options.ApiResources.Single().UserClaims.Add("name");
+                options.IdentityResources["openid"].UserClaims.Add("role");
+                options.ApiResources.Single().UserClaims.Add("role");
+            });
+            JwtSecurityTokenHandler.DefaultInboundClaimFilter.Remove("role");
             services.AddAuthentication().AddIdentityServerJwt();
 
             services.AddControllersWithViews();
