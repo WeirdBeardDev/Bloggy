@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace BloggyServerSide.Components
+namespace Bloggy.Shared.Components
 {
     public class BootstrapFieldCssClassProvider : FieldCssClassProvider
     {

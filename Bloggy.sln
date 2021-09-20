@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BloggyWebAssembly.Shared", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bloggy.Data", "Bloggy.Data\Bloggy.Data.csproj", "{E0CB9ADB-4B8E-46DA-8E89-B23E348BEE98}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloggy.Data.Shared", "Bloggy.Data.Shared\Bloggy.Data.Shared.csproj", "{56470BAC-7790-49C9-892C-1536F9E267F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bloggy.Shared", "Bloggy.Shared\Bloggy.Shared.csproj", "{8356902D-527E-4BD8-9339-59A65F8B4048}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{E0CB9ADB-4B8E-46DA-8E89-B23E348BEE98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E0CB9ADB-4B8E-46DA-8E89-B23E348BEE98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E0CB9ADB-4B8E-46DA-8E89-B23E348BEE98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56470BAC-7790-49C9-892C-1536F9E267F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56470BAC-7790-49C9-892C-1536F9E267F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56470BAC-7790-49C9-892C-1536F9E267F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56470BAC-7790-49C9-892C-1536F9E267F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8356902D-527E-4BD8-9339-59A65F8B4048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8356902D-527E-4BD8-9339-59A65F8B4048}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8356902D-527E-4BD8-9339-59A65F8B4048}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8356902D-527E-4BD8-9339-59A65F8B4048}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

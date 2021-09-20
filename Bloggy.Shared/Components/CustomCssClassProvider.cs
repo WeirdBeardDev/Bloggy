@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace BloggyServerSide.Components
+namespace Bloggy.Shared.Components
 {
     public class CustomCssClassProvider<ProviderType>: ComponentBase where ProviderType: FieldCssClassProvider,new()
     {
